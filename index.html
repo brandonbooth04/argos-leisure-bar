@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Argos Leisure Bar — Eat. Drink. Live.</title>
+  <meta name="description" content="Argos Leisure Bar — great food, great drinks, and the kind of nights you keep talking about.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Karla:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+    /* ── Tokens ─────────────────────────────────────────────────── */
+    :root {
+      --bg:        oklch(0.12 0.008 55);
+      --bg-2:      oklch(0.16 0.01  55);
+      --bg-3:      oklch(0.20 0.012 55);
+      --amber:     oklch(0.65 0.18  55);
+      --amber-hi:  oklch(0.72 0.15  55);
+      --amber-lo:  oklch(0.55 0.16  55);
+      --text:      oklch(0.93 0.005 80);
+      --text-2:    oklch(0.65 0.005 80);
+      --text-3:    oklch(0.42 0.005 80);
+      --border:    oklch(0.22 0.008 55);
+      --radius:    4px;
+      --display:   'Dela Gothic One', sans-serif;
+      --body:      'Karla', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ────────────────────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      transition: background 0.35s, padding 0.35s;
+    }
+
+    .nav.solid {
+      background: oklch(0.10 0.008 55 / 0.96);
+      backdrop-filter: blur(14px);
+      padding-top: 0.875rem;
+      padding-bottom: 0.875rem;
+    }
+
+    .nav-logo {
+      font-family: var(--body);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+    .nav-logo em { color: var(--amber); font-style: normal; }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.25rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-btn {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--amber);
+      padding: 0.55rem 1.3rem;
+      border-radius: var(--radius);
+      transition: background 0.2s;
+    }
+    .nav-btn:hover { background: var(--amber-hi); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 1px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 190;
+      background: oklch(0.10 0.008 55 / 0.98);
+      backdrop-filter: blur(12px);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: var(--display);
+      font-size: 2.25rem;
+      letter-spacing: -0.01em;
+      color: var(--text-2);
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--amber); }
+    .mobile-nav .nav-btn {
+      font-family: var(--body);
+      font-size: 0.9rem;
+      padding: 0.75rem 2rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100svh;
+      min-height: 580px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 2.5rem 5.5rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center 40%;
+      will-change: transform;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, oklch(0.10 0.008 55 / 0.75) 0%, transparent 60%),
+        linear-gradient(to top, oklch(0.10 0.008 55 / 0.98) 0%, oklch(0.10 0.008 55 / 0.45) 45%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(3.8rem, 11vw, 9.5rem);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      font-weight: 300;
+      color: var(--text-2);
+      max-width: 48ch;
+      line-height: 1.65;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-fill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.875rem 2rem;
+      background: var(--amber);
+      color: var(--bg);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border-radius: var(--radius);
+      transition: background 0.2s, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-fill:hover { background: var(--amber-hi); transform: translateY(-2px); }
+
+    .btn-line {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.875rem 2rem;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border: 1px solid oklch(0.35 0.008 55);
+      border-radius: var(--radius);
+      transition: border-color 0.2s, transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-line:hover { border-color: var(--text-2); transform: translateY(-2px); }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      right: 2.5rem;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--amber), transparent);
+    }
+
+    /* ── Ticker ─────────────────────────────────────────────────── */
+    .ticker {
+      overflow: hidden;
+      background: var(--amber);
+      padding: 0.7rem 0;
+    }
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: march 28s linear infinite;
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0 1.25rem;
+      font-family: var(--display);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg);
+    }
+    .ticker-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: oklch(0.12 0.008 55 / 0.45);
+      flex-shrink: 0;
+    }
+    @keyframes march {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Section shell ──────────────────────────────────────────── */
+    .section { padding: 5.5rem 2.5rem; }
+    .section.alt { background: var(--bg-2); }
+    .section-head { margin-bottom: 3.5rem; }
+    .section-head .eyebrow { margin-bottom: 0.75rem; }
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Featured dishes ────────────────────────────────────────── */
+    .dishes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .dish-card {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+    }
+    .dish-card:first-child { aspect-ratio: 3 / 5; }
+
+    .dish-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dish-card:hover img { transform: scale(1.05); }
+
+    .dish-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, oklch(0.10 0.008 55 / 0.88) 0%, transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+    }
+    .dish-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.3rem;
+    }
+    .dish-name {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      line-height: 1.1;
+    }
+
+    /* ── Menu tabs ──────────────────────────────────────────────── */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.2rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 3rem;
+    }
+
+    .tab {
+      padding: 0.6rem 1.1rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      border-radius: var(--radius) var(--radius) 0 0;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s;
+    }
+    .tab:hover { color: var(--text-2); }
+    .tab[aria-selected="true"] {
+      color: var(--amber);
+      border-bottom-color: var(--amber);
+    }
+
+    .panel { display: none; }
+    .panel.on { display: block; }
+
+    /* Menu layout */
+    .menu-note {
+      font-size: 0.82rem;
+      font-style: italic;
+      color: var(--text-2);
+      margin-bottom: 2rem;
+    }
+
+    .menu-cat { margin-bottom: 3rem; }
+    .menu-cat-title {
+      font-family: var(--display);
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      padding-bottom: 0.75rem;
+      margin-bottom: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-cat-note {
+      font-size: 0.78rem;
+      font-style: italic;
+      color: var(--text-2);
+      margin: 0.6rem 0 1.25rem;
+    }
+
+    .items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .items.solo { grid-template-columns: 1fr; }
+
+    .item {
+      padding: 1rem 1.25rem 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .items:not(.solo) .item:nth-child(even) {
+      padding-left: 1.25rem;
+      border-left: 1px solid var(--border);
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 0.25rem;
+    }
+    .item-name {
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .item-price {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--amber);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .item-desc {
+      font-size: 0.8rem;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      background: oklch(0.65 0.18 55 / 0.12);
+      padding: 0.1rem 0.35rem;
+      border-radius: 2px;
+      margin-left: 0.35rem;
+      vertical-align: middle;
+    }
+
+    .addon-box {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: oklch(0.65 0.18 55 / 0.07);
+      border: 1px solid oklch(0.65 0.18 55 / 0.18);
+      border-radius: var(--radius);
+    }
+    .addon-title {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+    }
+    .addon-body {
+      font-size: 0.82rem;
+      color: var(--text-2);
+      line-height: 1.6;
+    }
+    .addon-body strong { color: var(--text); font-weight: 600; }
+
+    /* ── About ──────────────────────────────────────────────────── */
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 5fr 6fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-wrap img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .about-img-accent {
+      position: absolute;
+      bottom: -1.75rem;
+      right: -1.75rem;
+      width: 55%;
+      aspect-ratio: 1;
+      border: 2px solid var(--amber);
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .about-content .eyebrow { margin-bottom: 0.75rem; }
+    .about-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.75rem;
+    }
+    .about-body {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      line-height: 1.75;
+      max-width: 52ch;
+    }
+    .about-body p + p { margin-top: 1rem; }
+
+    .stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2.75rem;
+      padding-top: 2.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .stat-num {
+      font-family: var(--display);
+      font-size: 2.5rem;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-top: 0.35rem;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────── */
+    footer {
+      background: oklch(0.09 0.006 55);
+      padding: 4.5rem 2.5rem 2rem;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 5fr 3fr 3fr;
+      gap: 3.5rem;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .footer-logo {
+      font-family: var(--body);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.875rem;
+    }
+    .footer-logo em { color: var(--amber); font-style: normal; }
+
+    .footer-tag {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      max-width: 32ch;
+      line-height: 1.65;
+      margin-bottom: 1.75rem;
+    }
+
+    .socials { display: flex; gap: 0.625rem; }
+    .social {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text-3);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .social:hover { color: var(--amber); border-color: var(--amber); }
+
+    .foot-col-title {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.25rem;
+    }
+
+    .hours dt { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-top: 0.625rem; }
+    .hours dt:first-child { margin-top: 0; }
+    .hours dd { font-size: 0.82rem; color: var(--text-2); }
+
+    address {
+      font-style: normal;
+      font-size: 0.85rem;
+      color: var(--text-2);
+      line-height: 1.8;
+    }
+    address a { color: var(--amber); transition: opacity 0.2s; }
+    address a:hover { opacity: 0.75; }
+
+    .foot-bottom {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding-top: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.76rem;
+      color: var(--text-3);
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-img-accent { display: none; }
+      .about-img-wrap img { aspect-ratio: 16 / 9; }
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav.solid { padding: 0.75rem 1.5rem; }
+      .nav-links, .nav-btn { display: none; }
+      .hamburger { display: flex; }
+
+      .hero { padding: 0 1.5rem 4rem; }
+
+      .section { padding: 4rem 1.5rem; }
+      footer { padding: 3.5rem 1.5rem 1.5rem; }
+
+      .dishes-grid { grid-template-columns: 1fr 1fr; gap: 0.875rem; }
+      .dish-card:first-child { grid-column: span 2; aspect-ratio: 16 / 9; }
+      .dish-card { aspect-ratio: 3 / 4; }
+
+      .items { grid-template-columns: 1fr; }
+      .items .item:nth-child(even) { padding-left: 0; border-left: none; }
+
+      .tab { padding: 0.5rem 0.75rem; font-size: 0.7rem; }
+
+      .footer-inner { grid-template-columns: 1fr; gap: 2.25rem; }
+      .foot-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+
+      .stats { gap: 2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .dishes-grid { grid-template-columns: 1fr; }
+      .dish-card:first-child { grid-column: auto; aspect-ratio: 4 / 3; }
+      .dish-card { aspect-ratio: 4 / 3; }
+    }
+
+    /* ── Reduced motion ──────────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─────────────────────── NAV ─────────────────────────────── -->
+<nav class="nav" id="nav" aria-label="Main navigation">
+  <a href="#" class="nav-logo">argos<em>.</em></a>
+
+  <ul class="nav-links" role="list">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#find-us">Find Us</a></li>
+  </ul>
+  <a href="#menu" class="nav-btn">See the Menu</a>
+
+  <button class="hamburger" id="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileNav">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-nav" id="mobileNav" role="dialog" aria-modal="true" aria-label="Navigation">
+  <a href="#menu"    onclick="closeMobile()">Menu</a>
+  <a href="#about"   onclick="closeMobile()">About</a>
+  <a href="#find-us" onclick="closeMobile()">Find Us</a>
+  <a href="#menu" class="nav-btn" onclick="closeMobile()">See the Menu</a>
+</div>
+
+
+<!-- ─────────────────────── HERO ─────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" id="heroBg" role="img" aria-label="Dark moody cocktail on a wooden bar tray"></div>
+
+  <div class="hero-content">
+    <span class="eyebrow">Argos Leisure Bar</span>
+    <h1 class="hero-title" id="hero-title">The Place<br>To Be.</h1>
+    <p class="hero-sub">Good food, great drinks, and the kind of nights you keep talking about.</p>
+    <div class="cta-row">
+      <a href="#menu" class="btn-fill">Explore the Menu</a>
+      <a href="#find-us" class="btn-line">Find Us</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint" aria-hidden="true">Scroll</div>
+</section>
+
+
+<!-- ─────────────────────── TICKER ───────────────────────────── -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-item">Good Food <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Great Drinks <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Even Better Company <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Argos Leisure Bar <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Eat <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Drink <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Live <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Good Food <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Great Drinks <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Even Better Company <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Argos Leisure Bar <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Eat <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Drink <span class="ticker-dot"></span></span>
+    <span class="ticker-item">Live <span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+
+<!-- ─────────────────────── FEATURED ─────────────────────────── -->
+<section class="section" aria-labelledby="featured-title">
+  <div class="section-head">
+    <span class="eyebrow">What We Do</span>
+    <h2 class="section-title" id="featured-title">Food Worth<br>Coming For</h2>
+  </div>
+
+  <div class="dishes-grid">
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=900&q=80"
+           alt="Classic Argos burger on dark wood with sesame bun"
+           loading="lazy" width="900" height="1200">
+      <div class="dish-overlay">
+        <span class="dish-label">Burgers</span>
+        <span class="dish-name">Built to Impress</span>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80"
+           alt="Wood-fired pizza with herbs and cherry tomatoes"
+           loading="lazy" width="800" height="1067">
+      <div class="dish-overlay">
+        <span class="dish-label">Pizzas</span>
+        <span class="dish-name">Stone Baked, Every Time</span>
+      </div>
+    </div>
+
+    <div class="dish-card">
+      <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=800&q=80"
+           alt="Penne arrabbiata pasta with parmesan"
+           loading="lazy" width="800" height="1067">
+      <div class="dish-overlay">
+        <span class="dish-label">Pasta</span>
+        <span class="dish-name">Comfort in a Bowl</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────── MENU ─────────────────────────────── -->
+<section class="section alt" id="menu" aria-labelledby="menu-title">
+  <div class="section-head">
+    <span class="eyebrow">Our Menu</span>
+    <h2 class="section-title" id="menu-title">Something for<br>Everyone</h2>
+  </div>
+
+  <div class="tab-bar" role="tablist" aria-label="Menu categories">
+    <button class="tab" role="tab" aria-selected="true"  aria-controls="panel-light"  data-panel="light">Light Meals</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-salads" data-panel="salads">Salads</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-burgers" data-panel="burgers">Burgers</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-grills"  data-panel="grills">Grills</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-pizzas"  data-panel="pizzas">Pizzas</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-pasta"   data-panel="pasta">Pasta</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-sweet"   data-panel="sweet">Something Sweet</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-drinks"  data-panel="drinks">Drinks</button>
+  </div>
+
+
+  <!-- LIGHT MEALS -->
+  <div class="panel on" id="panel-light" role="tabpanel">
+    <div class="items">
+      <div class="item">
+        <div class="item-row"><span class="item-name">Jalapeno Poppers</span><span class="item-price">R75</span></div>
+        <p class="item-desc">3 panko crumbed jalapeños stuffed with feta, cheddar, mozzarella &amp; peppadew mixture</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Meaty Jalapeno Poppers</span><span class="item-price">R80</span></div>
+        <p class="item-desc">3 panko crumbed poppers stuffed with a cheese griller, feta, cheddar, mozzarella &amp; peppadew mixture</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Crumbed Mushrooms</span><span class="item-price">R70</span></div>
+        <p class="item-desc">Served with aioli and sweet chilli sauce</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Crumbed Chicken Strips</span><span class="item-price">R70</span></div>
+        <p class="item-desc">Served with chips and sweet chilli sauce</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Pulled Beef Empanada</span><span class="item-price">R80</span></div>
+        <p class="item-desc">3 pulled beef empanadas served with lime mayo</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Chicken Wings</span><span class="item-price">R85</span></div>
+        <p class="item-desc">8 wings in a hot sticky basting with lime mayo, plain or spicy</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Peri Peri Steak Strips</span><span class="item-price">R75</span></div>
+        <p class="item-desc">Tender steak strips in homemade creamy peri peri sauce, served with garlic toast</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Peri Peri Chicken Livers</span><span class="item-price">R70</span></div>
+        <p class="item-desc">Juicy chicken livers in homemade creamy peri peri sauce with garlic toast</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Chimichurri Prawn</span><span class="item-price">R90</span></div>
+        <p class="item-desc">Pan fried chimichurri prawns served with slaw and garlic toast</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Panko Prawns</span><span class="item-price">R85</span></div>
+        <p class="item-desc">Crumbed and flash fried, served with aioli</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Garlic Snails</span><span class="item-price">R85</span></div>
+        <p class="item-desc">Topped with cheese &amp; panko crumbs, drenched in garlic butter, served with toast</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Cheesy Garlic Sub Roll</span><span class="item-price">R45</span></div>
+        <p class="item-desc">Add bacon +R10</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALADS -->
+  <div class="panel" id="panel-salads" role="tabpanel">
+    <p class="menu-note">All salads start with a fresh crispy base of leafy greens, baby tomatoes, cucumber, carrots, red pepper &amp; red onions.</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-row"><span class="item-name">Greek Salad</span><span class="item-price">R80</span></div>
+        <p class="item-desc">Feta, olives &amp; garlic croutons</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Argos Salad</span><span class="item-price">R85</span></div>
+        <p class="item-desc">Bacon, avo, blackened corn, peppadews &amp; toasted pumpkin seeds</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Grilled Chicken Salad</span><span class="item-price">R95</span></div>
+        <p class="item-desc">Grilled sliced chicken, lightly fried mushrooms, avo, sundried tomatoes &amp; toasted almonds</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BURGERS -->
+  <div class="panel" id="panel-burgers" role="tabpanel">
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">Classic Burgers</h3>
+      <p class="menu-cat-note">Served on a brioche bun with lettuce &amp; tomato — R95</p>
+      <div class="items">
+        <div class="item">
+          <div class="item-row"><span class="item-name">Classic Burger</span><span class="item-price">R95</span></div>
+          <p class="item-desc">Grilled ground beef, chicken, or plant based, with pickled red onions &amp; chipotle mayo</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">The Dagwood</span><span class="item-price">R110</span></div>
+          <p class="item-desc">Classic bacon, cheese &amp; egg burger. Beef or chicken</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">The Mexican</span><span class="item-price">R110</span></div>
+          <p class="item-desc">Bacon, cheese &amp; guacamole, fresh pico de gallo, crushed tortilla chips. Beef or chicken</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">The Californian</span><span class="item-price">R110</span></div>
+          <p class="item-desc">Topped with fresh avo &amp; feta. Beef, chicken, or vegetarian</p>
+        </div>
+      </div>
+      <div class="addon-box">
+        <p class="addon-title">Add a Sauce — R25</p>
+        <p class="addon-body">Green Peppercorn &nbsp;·&nbsp; Double Cheese &nbsp;·&nbsp; Wild Mushroom &amp; Thyme &nbsp;·&nbsp; Creamy Peri Peri &nbsp;·&nbsp; Cheesy Garlic</p>
+      </div>
+    </div>
+
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">Speciality Burgers</h3>
+      <p class="menu-cat-note">Served with lettuce, tomato, pickled red onions, battered onions, seasoned fries &amp; aioli</p>
+      <div class="items">
+        <div class="item">
+          <div class="item-row"><span class="item-name">Pulled Chicken Burger</span><span class="item-price">R115</span></div>
+          <p class="item-desc">Smokey pulled chicken topped with melted cheese &amp; crushed nachos</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Pulled Pork Burger</span><span class="item-price">R115</span></div>
+          <p class="item-desc">Smokey pulled pork with slaw, pickled jalapeño &amp; aioli mayo</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Prego Steak Roll</span><span class="item-price">R115</span></div>
+          <p class="item-desc">Saucy peri peri steak strips on a Portuguese roll with crispy onions</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Burger Wrap</span><span class="item-price">R105</span></div>
+          <p class="item-desc">Toasted tortilla with grilled beef or chicken, cheese, bacon &amp; caramelised onions in chipotle sauce</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">Sides &amp; Extras</h3>
+      <div class="items solo">
+        <div class="item">
+          <p class="item-desc">Fries R20 &nbsp;·&nbsp; Garden Salad R35 &nbsp;·&nbsp; Coleslaw R35 &nbsp;·&nbsp; Battered Onion Rings R30</p>
+        </div>
+        <div class="item">
+          <p class="item-desc">Cheese R10 &nbsp;·&nbsp; Bacon R10 &nbsp;·&nbsp; Beef Patty R35 &nbsp;·&nbsp; Chicken Patty R35</p>
+        </div>
+        <div class="item">
+          <p class="item-desc">Aioli Mayo R8 &nbsp;·&nbsp; Chipotle Mayo R12 &nbsp;·&nbsp; Lime Mayo R12 &nbsp;·&nbsp; Sour Cream R12 &nbsp;·&nbsp; Pico de Gallo R15 &nbsp;·&nbsp; Garlic R8 &nbsp;·&nbsp; Chilli R8 &nbsp;·&nbsp; Caramelised Onions R12 &nbsp;·&nbsp; Guacamole R15</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRILLS -->
+  <div class="panel" id="panel-grills" role="tabpanel">
+    <p class="menu-note">All grills served with coleslaw, seasoned fries &amp; aioli.</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-row"><span class="item-name">T-Bone Steak</span><span class="item-price">R169</span></div>
+        <p class="item-desc">Tender 300g t-bone grilled &amp; basted to perfection, topped with a fried egg</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">T-Bone &amp; Sticky Wings</span><span class="item-price">R189</span></div>
+        <p class="item-desc">300g t-bone steak with a top-up of sticky wings</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Sticky Ribs</span><span class="item-price">R169</span></div>
+        <p class="item-desc">400g succulent sweet and sticky ribs</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Sticky Ribs &amp; Wings</span><span class="item-price">R189</span></div>
+        <p class="item-desc">400g sweet sticky ribs with a top-up of sticky wings, hot or not</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Full Wings</span><span class="item-price">R169</span></div>
+        <p class="item-desc">16 sticky wings, hot or not</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIZZAS -->
+  <div class="panel" id="panel-pizzas" role="tabpanel">
+    <p class="menu-note">Optional gluten free base +R10</p>
+
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">For the Table</h3>
+      <div class="items">
+        <div class="item">
+          <div class="item-row"><span class="item-name">Cheesy Garlic Pizza Bread <span class="tag">New</span></span><span class="item-price">R110</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">3 Cheese &amp; Caramelised Onion</span><span class="item-price">R120</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Cheesy Garlic with Feta &amp; Mushroom <span class="tag">New</span></span><span class="item-price">R120</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">Pizzas</h3>
+      <div class="items">
+        <div class="item">
+          <div class="item-row"><span class="item-name">Sausage Fest <span class="tag">New</span></span><span class="item-price">R169</span></div>
+          <p class="item-desc">Pepperoni, salami &amp; chorizo with red onion</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">3 Little Pigs</span><span class="item-price">R169</span></div>
+          <p class="item-desc">Pulled BBQ pork, de-boned pork rib, bacon, red peppers &amp; aioli</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Rib &amp; Chicken</span><span class="item-price">R130</span></div>
+          <p class="item-desc">Grilled deboned pork ribs &amp; chicken, balsamic cherry tomatoes, chipotle mayo</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Carnivore</span><span class="item-price">R130</span></div>
+          <p class="item-desc">Grilled steak strips &amp; deboned pork ribs, red onion, red peppers, aioli</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Pulled Pork</span><span class="item-price">R130</span></div>
+          <p class="item-desc">Smokey pulled pork, red onion, fresh coriander, lime mayo</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Pulled Chicken</span><span class="item-price">R130</span></div>
+          <p class="item-desc">Pulled BBQ chicken, sundried tomatoes, red onion, lime mayo</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Saucy Chicken Deluxe</span><span class="item-price">R125</span></div>
+          <p class="item-desc">Grilled BBQ chicken, mushrooms, caramelised onions, sweet chilli mayo</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Sweet Chilli Chicken &amp; Peppadew</span><span class="item-price">R125</span></div>
+          <p class="item-desc">Grilled BBQ chicken, bacon, peppadews, sweet chilli sauce</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">California</span><span class="item-price">R125</span></div>
+          <p class="item-desc">Double bacon, feta and avocado</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Chilli Con Carne</span><span class="item-price">R130</span></div>
+          <p class="item-desc">Mexican mince, sour cream, guacamole, crushed nacho chips</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Vegetarian</span><span class="item-price">R125</span></div>
+          <p class="item-desc">Balsamic cherry tomatoes, red onions, mushrooms, peppers, feta, caramelised onions</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Margherita</span><span class="item-price">R105</span></div>
+          <p class="item-desc">Classic cheese</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Caprese <span class="tag">New</span></span><span class="item-price">R105</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Regina</span><span class="item-price">R115</span></div>
+          <p class="item-desc">Mushrooms &amp; ham</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Hawaiian</span><span class="item-price">R115</span></div>
+          <p class="item-desc">Ham &amp; pineapple</p>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Italian Salami</span><span class="item-price">R135</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Spicy Pepperoni</span><span class="item-price">R135</span></div>
+        </div>
+      </div>
+
+      <div class="addon-box">
+        <p class="addon-title">Add Toppings</p>
+        <p class="addon-body">
+          <strong>Meaty</strong> (steak strips / de-boned pork ribs / chicken strips) R30 &nbsp;·&nbsp; Bacon / pepperoni / chorizo / salami / ham R15<br>
+          <strong>Mucho Meaty</strong> (Mexican mince / pulled pork / pulled chicken) R35<br>
+          <strong>Vegetarian</strong> (mushrooms / onion / cherry tomatoes / rocket / cheese / pineapple / peppers / peppadews) R15 &nbsp;·&nbsp; Avo / feta R20
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASTA -->
+  <div class="panel" id="panel-pasta" role="tabpanel">
+    <p class="menu-note">Choice of tagliatelle or penne.</p>
+    <div class="items">
+      <div class="item">
+        <div class="item-row"><span class="item-name">Arrabbiata</span><span class="item-price">R99</span></div>
+        <p class="item-desc">Tomato based pasta infused with garlic, red chillis &amp; fresh herbs, with or without olives. Add chicken +R5</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Alfredo</span><span class="item-price">R120</span></div>
+        <p class="item-desc">Crispy bacon, sauteed mushrooms in a creamy velvety Alfredo sauce</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Classic Bolognese</span><span class="item-price">R110</span></div>
+        <p class="item-desc">Rich savoury meat sauce simmered with tomatoes, onions, carrots &amp; aromatic herbs</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Tikka Chicken</span><span class="item-price">R125</span></div>
+        <p class="item-desc">Tender tikka chicken, sauteed mushrooms in a creamy white sauce with fresh tomato</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Italian Sausage &amp; Peppers</span><span class="item-price">R135</span></div>
+        <p class="item-desc">Italian sausage, sweet bell peppers, caramelised onions in a creamy tomato sauce</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Cajun Prawn &amp; Chorizo</span><span class="item-price">R169</span></div>
+        <p class="item-desc">Cajun prawns &amp; savoury chorizo in a cream sauce with fresh tomato</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Creamy Garlic Prawn Pasta</span><span class="item-price">R125</span></div>
+        <p class="item-desc">Speaks for itself. Yummy.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOMETHING SWEET -->
+  <div class="panel" id="panel-sweet" role="tabpanel">
+    <div class="items">
+      <div class="item">
+        <div class="item-row"><span class="item-name">Dark Chocolate Mudslide</span><span class="item-price">R50</span></div>
+        <p class="item-desc">Decadent and served with vanilla ice-cream</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Donut Holes</span><span class="item-price">R55</span></div>
+        <p class="item-desc">6 donut holes in chocolate &amp; caramel sauce, topped with crushed Oreos &amp; fudge pieces. Extra ice cream +R15, extra sauce +R8</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Milkshake</span><span class="item-price">R38</span></div>
+        <p class="item-desc">Salted caramel, vanilla, chocolate, lime, bubblegum, banana, strawberry. Chocolate Oreo Shake R42</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Coffee Freezo</span><span class="item-price">R35</span></div>
+        <p class="item-desc">Extra flavour options (vanilla, hazelnut, caramel, cinnabun, chocolate cookie) +R9</p>
+      </div>
+      <div class="item">
+        <div class="item-row"><span class="item-name">Belgium Waffle with Ice-cream</span><span class="item-price">R45 / R55</span></div>
+        <p class="item-desc">Half or full, drizzled with chocolate or caramel sauce, topped with crushed Oreos or fudge pieces</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DRINKS -->
+  <div class="panel" id="panel-drinks" role="tabpanel">
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">Hot Beverages</h3>
+      <div class="items">
+        <div class="item">
+          <div class="item-row"><span class="item-name">Americano</span><span class="item-price">R25</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Espresso Single</span><span class="item-price">R22</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Cappuccino</span><span class="item-price">R28</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Espresso Double</span><span class="item-price">R26</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Café Latte</span><span class="item-price">R29</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Café Mocha</span><span class="item-price">R35</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Hot Chocolate</span><span class="item-price">R32</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Five Roses Tea</span><span class="item-price">R20</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Rooibos Tea</span><span class="item-price">R20</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-cat">
+      <h3 class="menu-cat-title">Speciality Drinks</h3>
+      <div class="items">
+        <div class="item">
+          <div class="item-row"><span class="item-name">Dom Pedro (Amarula or Bells)</span><span class="item-price">R45</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Dom Pedro (Frangelico or Kahlua)</span><span class="item-price">R45</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Amarula Coffee</span><span class="item-price">R50</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Amarula Hot Chocolate</span><span class="item-price">R40</span></div>
+        </div>
+        <div class="item">
+          <div class="item-row"><span class="item-name">Irish Coffee</span><span class="item-price">R50</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ─────────────────────── ABOUT ─────────────────────────────── -->
+<section class="section" id="about" aria-labelledby="about-title">
+  <div class="about-wrap">
+    <div class="about-img-wrap">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=900&q=80"
+           alt="Warm, lively bar interior with hanging lights and wooden tables"
+           loading="lazy" width="900" height="1125">
+      <div class="about-img-accent" aria-hidden="true"></div>
+    </div>
+
+    <div class="about-content">
+      <span class="eyebrow">About Us</span>
+      <h2 class="about-title" id="about-title">More Than<br>Just a Bar</h2>
+      <div class="about-body">
+        <p>Argos is the kind of place you come for a quick drink and end up staying all night. A neighbourhood bar built around real food, proper drinks, and a crowd that knows how to have a good time.</p>
+        <p>From jalapeño poppers and sticky ribs to wood-fired pizzas and pasta that speaks for itself, we've built a menu worth lingering over. No pretension. Just good stuff.</p>
+      </div>
+      <div class="stats">
+        <div>
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Menu Items</div>
+        </div>
+        <div>
+          <div class="stat-num">7</div>
+          <div class="stat-label">Days a Week</div>
+        </div>
+        <div>
+          <div class="stat-num">1</div>
+          <div class="stat-label">Place to Be</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────── FOOTER ───────────────────────────── -->
+<footer id="find-us" aria-label="Site footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">argos<em>.</em></div>
+      <p class="footer-tag">Good food, great drinks, and the kind of nights you keep talking about.</p>
+      <div class="socials">
+        <a href="https://www.instagram.com/argosleisurebar" class="social" aria-label="Follow us on Instagram" target="_blank" rel="noopener noreferrer">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/share/1BAcfNMSnq/" class="social" aria-label="Follow us on Facebook" target="_blank" rel="noopener noreferrer">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p class="foot-col-title">Hours</p>
+      <dl class="hours">
+        <dt>Mon – Thu</dt><dd>11:00 – 22:00</dd>
+        <dt>Fri – Sat</dt><dd>11:00 – 00:00</dd>
+        <dt>Sunday</dt><dd>11:00 – 21:00</dd>
+      </dl>
+    </div>
+
+    <div>
+      <p class="foot-col-title">Find Us</p>
+      <address>
+        <!-- Replace with actual address -->
+        123 Leisure Street<br>
+        Your Suburb<br>
+        Johannesburg<br><br>
+        <a href="tel:+27000000000">+27 00 000 0000</a><br>
+        <a href="mailto:hello@argosbar.co.za">hello@argosbar.co.za</a>
+      </address>
+    </div>
+  </div>
+
+  <div class="foot-bottom">
+    <span>&copy; 2025 Argos Leisure Bar. All rights reserved.</span>
+    <span>Eat. Drink. Live.</span>
+  </div>
+</footer>
+
+
+<!-- ─────────────────────── JS ────────────────────────────────── -->
+<script>
+  /* Nav scroll ------------------------------------------------- */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('solid', window.scrollY > 60);
+  }, { passive: true });
+
+  /* Hero parallax --------------------------------------------- */
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY < window.innerHeight) {
+      heroBg.style.transform = `translateY(${window.scrollY * 0.18}px)`;
+    }
+  }, { passive: true });
+
+  /* Mobile nav ------------------------------------------------- */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileNav  = document.getElementById('mobileNav');
+  const hLines     = hamburger.querySelectorAll('span');
+
+  function openMobile() {
+    mobileNav.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    hLines[0].style.transform = 'translateY(7px) rotate(45deg)';
+    hLines[1].style.opacity   = '0';
+    hLines[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobile() {
+    mobileNav.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    hLines[0].style.transform = '';
+    hLines[1].style.opacity   = '';
+    hLines[2].style.transform = '';
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.contains('open') ? closeMobile() : openMobile();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeMobile();
+  });
+
+  /* Menu tabs -------------------------------------------------- */
+  const tabs   = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.panel;
+
+      tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+      panels.forEach(p => p.classList.remove('on'));
+
+      tab.setAttribute('aria-selected', 'true');
+      document.getElementById(`panel-${target}`).classList.add('on');
+    });
+  });
+
+  /* Keyboard nav for tabs -------------------------------------- */
+  const tabBar = document.querySelector('.tab-bar');
+  tabBar.addEventListener('keydown', e => {
+    const current = document.activeElement;
+    const arr = [...tabs];
+    const idx = arr.indexOf(current);
+    if (idx === -1) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); arr[(idx + 1) % arr.length].focus(); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); arr[(idx - 1 + arr.length) % arr.length].focus(); }
+  });
+</script>
+</body>
+</html>
