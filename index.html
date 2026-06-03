@@ -551,6 +551,57 @@
       margin-top: 0.35rem;
     }
 
+    /* ── Delivery ───────────────────────────────────────────────── */
+    .delivery-section { text-align: center; }
+    .delivery-inner { max-width: 700px; margin: 0 auto; }
+    .delivery-inner .section-title { margin-top: 0.5rem; }
+    .delivery-sub {
+      color: var(--text-2);
+      font-size: 1.05rem;
+      max-width: 44ch;
+      margin: 1rem auto 3rem;
+      line-height: 1.6;
+    }
+    .delivery-cards {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .delivery-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+      min-width: 220px;
+    }
+    .delivery-card:hover {
+      border-color: var(--amber);
+      transform: translateY(-3px);
+    }
+    .delivery-logo { width: 160px; display: flex; align-items: center; justify-content: center; }
+    .delivery-logo svg { width: 100%; height: auto; display: block; }
+    .delivery-logo img { width: 100%; height: auto; display: block; }
+    .uber-logo { color: var(--text); }
+    .mrd-logo { width: 72px; }
+    .delivery-cta {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    @media (max-width: 480px) {
+      .delivery-cards { flex-direction: column; align-items: center; }
+      .delivery-card { width: 100%; max-width: 320px; }
+    }
+
     /* ── Footer ─────────────────────────────────────────────────── */
     footer {
       background: oklch(0.09 0.006 55);
@@ -1224,6 +1275,47 @@
   </div>
 </section>
 
+
+<!-- ─────────────────────── DELIVERY ────────────────────────── -->
+<section class="section alt delivery-section" aria-labelledby="delivery-title">
+  <div class="delivery-inner">
+    <p class="eyebrow">Order from home</p>
+    <h2 class="section-title" id="delivery-title">We Deliver</h2>
+    <p class="delivery-sub">Get Argos straight to your door. We're on both major delivery platforms.</p>
+    <div class="delivery-cards">
+
+      <a href="https://www.ubereats.com/za/store/argos/xc5igoCYSS2hfwAF0VMqLA?srsltid=AfmBOorTc2aT58iux-RxdR1D2NXzkLuZ2sOPCpkjbPYd42oHfIa9wpyM"
+         target="_blank" rel="noopener noreferrer" class="delivery-card">
+        <div class="delivery-logo uber-logo">
+          <svg width="134" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Uber Eats"><g clip-path="url(#clip0_227_7066)" fill="currentColor"><path d="M70.629.334H85.72V3.98H74.705v5.215h10.722v3.537H74.705v5.288H85.72v3.647H70.629V.334Zm56.101 21.734c4.627 0 7.234-2.188 7.234-5.215 0-2.151-1.543-3.756-4.774-4.449l-3.415-.693c-1.983-.364-2.607-.729-2.607-1.458 0-.948.955-1.532 2.718-1.532 1.909 0 3.305.51 3.709 2.26h4.002c-.22-3.281-2.607-5.47-7.454-5.47-4.186 0-7.124 1.715-7.124 5.033 0 2.298 1.616 3.793 5.104 4.522l3.819.875c1.505.292 1.909.693 1.909 1.313 0 .985-1.138 1.605-2.974 1.605-2.313 0-3.635-.51-4.149-2.261h-4.04c.588 3.282 3.048 5.47 8.042 5.47Zm-9.124-3.975h-3.011c-.918 0-1.506-.401-1.506-1.24V9.487h4.517V5.913h-4.517V1.428h-4.039v4.485h-3.048v3.574h3.048v8.387c0 2.115 1.505 3.792 4.223 3.792h4.333v-3.573Zm-13.309-12.18v15.754h-4.002v-1.422a7.84 7.84 0 0 1-5.068 1.823c-4.737 0-8.445-3.683-8.445-8.278 0-4.595 3.709-8.278 8.445-8.278a7.84 7.84 0 0 1 5.068 1.824V5.914h4.002Zm-3.929 7.877a4.771 4.771 0 0 0-4.81-4.814 4.795 4.795 0 0 0-4.81 4.814 4.795 4.795 0 0 0 4.81 4.813c2.68 0 4.81-2.115 4.81-4.813ZM8.982 19.167c2.976 0 5.277-2.286 5.277-5.669V.333h3.223v21.332H14.29v-1.98c-1.442 1.492-3.437 2.346-5.677 2.346-4.602 0-8.132-3.322-8.132-8.35V.334h3.223v13.165c0 3.443 2.27 5.668 5.278 5.668Zm10.893 2.498h3.069v-1.95a7.836 7.836 0 0 0 5.584 2.317c4.603 0 8.224-3.627 8.224-8.107 0-4.51-3.62-8.136-8.224-8.136a7.764 7.764 0 0 0-5.554 2.316V.334h-3.1v21.332Zm8.439-2.346a5.377 5.377 0 0 1-5.401-5.394 5.377 5.377 0 0 1 5.4-5.394 5.37 5.37 0 0 1 5.37 5.394c0 2.987-2.423 5.394-5.37 5.394Zm17.705-13.5c-4.572 0-8.04 3.687-8.04 8.075 0 4.632 3.622 8.107 8.316 8.107 2.854 0 5.186-1.25 6.751-3.322l-2.24-1.646c-1.166 1.554-2.7 2.286-4.51 2.286-2.64 0-4.757-1.89-5.187-4.419h12.735v-1.006c0-4.632-3.314-8.075-7.825-8.075Zm-4.848 6.643c.553-2.377 2.486-3.961 4.787-3.961 2.302 0 4.235 1.584 4.757 3.961H41.17ZM63.45 8.866V6.002h-1.074c-1.718 0-2.976.792-3.743 2.042v-1.92h-3.069v15.542h3.1v-8.838c0-2.407 1.472-3.962 3.497-3.962h1.289Z"/></g><defs><clipPath id="clip0_227_7066"><path fill="#fff" transform="translate(.481 .333)" d="M0 0h133.494v27.429H0z"/></clipPath></defs></svg>
+        </div>
+        <span class="delivery-cta">Order on Uber Eats ↗</span>
+      </a>
+
+      <a href="https://www.mrd.com/delivery/restaurant/argos-walmer/22011"
+         target="_blank" rel="noopener noreferrer" class="delivery-card mrd-card">
+        <div class="delivery-logo mrd-logo">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Mr D">
+            <!-- blue background -->
+            <rect width="100" height="100" rx="18" fill="#5CC8F5"/>
+            <!-- MR text -->
+            <text x="9" y="50" font-family="Arial Black, Arial, sans-serif" font-size="20" font-weight="900" fill="#1A1A1A" letter-spacing="1">MR</text>
+            <!-- D body (large bold D shape) -->
+            <path d="M43 14 L54 14 Q76 14 76 47 Q76 80 54 80 L43 80 Z" fill="#1A1A1A"/>
+            <!-- D counter (cutout) -->
+            <path d="M50 23 L54 23 Q67 23 67 47 Q67 71 54 71 L50 71 Z" fill="#5CC8F5"/>
+            <!-- Left leg: down and to the left, bent at knee -->
+            <path d="M43 80 L38 92 L26 96 L24 90 L34 87 L39 75 Z" fill="#1A1A1A"/>
+            <!-- Right leg: down and to the right, bent forward -->
+            <path d="M62 76 L70 88 L78 86 L76 80 L70 82 L63 70 Z" fill="#1A1A1A"/>
+          </svg>
+        </div>
+        <span class="delivery-cta">Order on Mr D ↗</span>
+      </a>
+
+    </div>
+  </div>
+</section>
 
 <!-- ─────────────────────── MAP ──────────────────────────────── -->
 <section style="padding: 0; line-height: 0;">
